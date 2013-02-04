@@ -33,9 +33,9 @@ Example (fifty-fifty):
 </code>
 <script>
   $(document).ready(function() {
-    /* Graphy init on the #graphy element */
+	/* Graphy init on the #graphy element */
   	$('#graphy').graphy();
-	});
+  });
 </script>
 </pre>
 
@@ -45,7 +45,7 @@ Thats all!
 
 Graphy takes some options when initialized:
 * (string) valueDataset [default: 'data-value']
-* (string) titleDataset [default: null] | not yet supported
+* (string) titleDataset [default: null]  *not yet supported*
 * (array) colors        [default: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8']]
 
 Example:
@@ -54,6 +54,6 @@ Example:
       colors: ['red', 'blue', 'green', 'yellow'],
       valueDataset: 'data-mywhatever',
       titleDataset: 'data-mysupertitle'
-    });
+  });
 </pre>
 
