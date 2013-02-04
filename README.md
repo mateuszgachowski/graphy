@@ -8,11 +8,11 @@ Graphy is a jQuery plugin/component which allows you to create easy pie charts.
 * Requires jQuery
 
 <pre>
-<link href="style.css" rel="stylesheet">
+&lt;link href="style.css" rel="stylesheet"&gt;
 </pre> 
 in your head tag
 <pre>
-<script src="graphy.js"></script>
+&lt;script src="graphy.js"&gt;&lt;/script&gt;
 </pre> 
 in your head tag (or at the bottom of the site)
 
@@ -25,11 +25,11 @@ Example (fifty-fifty):
 <pre>
 <!-- Create the main element - the ID is not nessesary or can be various, but the class *must be* .graphy -->
 <code>
-<div id="graphy" class="graphy">
-  <!-- insert data values, for this example 300 and 300, which gives us 50%:50% -->
-  <div data-value="300"></div>
-  <div data-value="300"></div>
-</div>
+&lt;div id="graphy" class="graphy"&gt;
+  &lt;!-- insert data values, for this example 300 and 300, which gives us 50%:50% -->
+  &lt;div data-value="300"&gt;&lt;/div&gt;
+  &lt;div data-value="300"&gt;&lt;/div&gt;
+&lt;/div>
 </code>
 <script>
   $(document).ready(function() {
@@ -45,7 +45,7 @@ Thats all!
 
 Graphy takes some options when initialized:
 * (string) valueDataset [default: 'data-value']
-* (string) titleDataset [default: null] (not yet supported)
+* (string) titleDataset [default: null] | not yet supported
 * (array) colors        [default: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8']]
 
 Example:
