@@ -23,10 +23,10 @@ Running *graphy* is very simple, you just need to create an element which will c
 
 Example (fifty-fifty):
 <pre>
-<!-- Create the main element - the ID is not nessesary or can be various, but the class *must be* .graphy -->
+&lt;!-- Create the main element - the ID is not nessesary or can be various, but the class *must be* .graphy --&gt;
 <code>
 &lt;div id="graphy" class="graphy"&gt;
-  &lt;!-- insert data values, for this example 300 and 300, which gives us 50%:50% -->
+  &lt;!-- insert data values, for this example 300 and 300, which gives us 50%:50% --&gt;
   &lt;div data-value="300"&gt;&lt;/div&gt;
   &lt;div data-value="300"&gt;&lt;/div&gt;
 &lt;/div>
