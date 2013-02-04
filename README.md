@@ -57,3 +57,15 @@ Example:
   });
 </pre>
 
+## Browser support:
+
+Graphy should be supported in every new web browser: 
+* Firefox 
+* Chrome
+* Opera
+* Safari
+* IE 9/10
+
+Planned future support: 
+* IE 8 (natively with MS filters or with a hacky canvas for IE)
+
