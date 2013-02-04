@@ -8,8 +8,9 @@ Instalation:
 
 * Requires jQuery
 
-<link href="style.css" rel="stylesheet"> in your head tag
-<script src="graphy.js"></script> in your head tag (or at the bottom of the site)
+<pre><link href="style.css" rel="stylesheet"></pre> in your head tag
+<pre><script src="graphy.js"></script></pre> in your head tag (or at the bottom of the site)
+
 
 How to run:
 -----------
