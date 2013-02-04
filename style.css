@@ -1,0 +1,70 @@
+/* Pie element */
+.graphy > div {
+	position: absolute;
+	width: 100px;
+	height: 200px;
+	overflow: hidden;
+	left: 150px;
+	-moz-transform-origin:left center;
+	-ms-transform-origin:left center;
+	-o-transform-origin:left center;
+	-webkit-transform-origin:left center;
+	transform-origin:left center;
+}
+		
+/* Pie big */
+.graphy > .big {
+	width: 200px;
+	height: 200px;
+	left: 50px;
+	-moz-transform-origin: center center;
+	-ms-transform-origin: center center;
+	-o-transform-origin: center center;
+	-webkit-transform-origin: center center;
+	transform-origin: center center;
+}
+
+
+.graphy > div > div.before {
+	position: absolute;
+	width: 100px;
+	height: 200px;
+	left: -100px;
+	behavior: url(border-radius.htc);
+	border-radius: 100px 0 0 100px;
+	-moz-transform-origin: right center;
+	-ms-transform-origin: right center;
+	-o-transform-origin: right center;
+	-webkit-transform-origin: right center;
+	transform-origin: right center;
+}
+
+.graphy > .big > div.before {
+	left: 0px;
+}
+
+.graphy > .big > div.after {
+	position: absolute;
+	width: 100px;
+	height: 200px;
+	left: 100px;
+	behavior: url(border-radius.htc);
+	border-radius: 0 100px 100px 0;
+}
+		
+/* Circle in the middle of the pie */
+.graphy > .center {
+	position: absolute;
+	width: 140px;
+	height: 140px;
+	left: 80px;
+	top: 38px;
+	behavior: url(border-radius.htc);
+	border-radius: 100px;
+	background: #ccc;
+	text-align: center;
+	line-height: 140px;
+	font-family: Arial;
+	font-size: 3.5em;
+	color: #fff;
+}
