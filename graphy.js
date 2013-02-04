@@ -4,93 +4,112 @@
 	
 	$.fn.extend({
 		graphy: function (customParams) {
-			var defaults = {
+			var defaults;
+			var core;
+			var options;
+			var pieElements;
+			var iter;
+			var deg;
+			var percent;
+			var tempValue;
+			
+			defaults = {
 				valueDataset: 'data-value',
 				startDataset: 'data-start',
 				titleDataset: 'data-title',
 				colors: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8']
 			};
 			
-			var core = {
+			options  = $.extend({}, defaults, customParams);
+			
+			pieElements = this.children('[' + options.valueDataset + ']');
+			iter = 0;
+			
+			core = {
 				fullValue: 0,
 				dataValues: [],
 				currentColorIndex: 0,
-				dataStartStyles: function(object, value) {
-					$(object).css({
+				ieMatrixCount: function (deg) {
+					
+				  // use parseFloat twice to kill exponential numbers and avoid things like 0.00000000
+				  var rad = deg * (Math.PI/180),
+							costheta = parseFloat(parseFloat(Math.cos(rad)).toFixed(8)),
+				  		sintheta = parseFloat(parseFloat(Math.sin(rad)).toFixed(8));
+						
+					// collect all of the values  in our matrix
+			    var a = costheta,
+			        b = sintheta,
+			        c = -sintheta,
+			        d = costheta,
+			        tx = 0,
+			        ty = 0;
+					
+					return 'progid:DXImageTransform.Microsoft.Matrix(M11=' + a + ', M12=' + c + ', M21=' + b + ', M22=' + d + ', sizingMethod=\'auto expand\')';		
+
+				},
+				dataStartStyles: function (value) {
+					$(this).css({
 						'-moz-transform': 'rotate(' + value + 'deg)', /* Firefox */
 						'-ms-transform': 'rotate(' + value + 'deg)', /* IE */
 						'-webkit-transform': 'rotate(' + value + 'deg)', /* Safari and Chrome */
 						'-o-transform': 'rotate(' + value + 'deg)', /* Opera */
-						'transform': 'rotate(' + value + 'deg)'
+						'transform': 'rotate(' + value + 'deg)',
+						'-ms-filter': core.ieMatrixCount(value)
 					});
 					
 					// TODO: add here fixes for IE 7/8
 				},
-				dataValueStyles: function(object, value) {
+				dataValueStyles: function (value) {
 					value = value + 1;
 					if(value > 360) { value = 360 };
 					
-					$(object).children('.before').css({
+					$(this).children('.before').css({
 						'-moz-transform': 'rotate(' + value + 'deg)', /* Firefox */
 						'-ms-transform': 'rotate(' + value + 'deg)', /* IE */
 						'-webkit-transform': 'rotate(' + value + 'deg)', /* Safari and Chrome */
 						'-o-transform': 'rotate(' + value + 'deg)', /* Opera */
-						'transform': 'rotate(' + value + 'deg)'
+						'transform': 'rotate(' + value + 'deg)',
+						//'-ms-filter': core.ieMatrixCount(value)
+						'-ms-filter': 'progid:DXImageTransform.Microsoft.Matrix()'
 					});
 				},
-				dataAppendColors: function(object) {
-					if(this.currentColorIndex === options.colors.length) {
-						this.currentColorIndex = 0;
+				dataAppendColors: function () {
+					if(core.currentColorIndex === options.colors.length) {
+						core.currentColorIndex = 0;
 					}
-					console.log(options.colors, this.currentColorIndex, options.colors.length);
-					$(object).children().css({
-						'background-color': options.colors[this.currentColorIndex]
+					$(this).children().css({
+						'background-color': options.colors[core.currentColorIndex]
 					});
 
-					this.currentColorIndex++;
+					core.currentColorIndex++;
+				},
+				countFullValue: function () {
+					pieElements.each(function (index) {		
+						core.fullValue += ~~$(this).attr(options.valueDataset);
+					});
+				},
+				createElements: function () {
+					$(this).append('<div class="before">');
+					$(this).append('<div class="after">');
 				}
 			};
 			
-			var options  = $.extend({}, defaults, customParams);
+			core.countFullValue();
 			
-			console.log('Graphy initiated on element: ', this);
-			var pieElements = this.children('[data-value]');
-			
-			console.log(
-				$.makeArray(pieElements).reduce(function(prevValue, currentValue) {
-					var prevObj;
-					var currObj;
-					if(typeof prevValue === 'object') {
-						prevObj = ~~$(prevValue).attr(options.valueDataset);
-					}
-					else {
-						prevObj = prevValue;
-					}
-					currObj = ~~$(currentValue).attr(options.valueDataset);
-					return prevObj + currObj;
-				}));
-			var value;
-			pieElements.each(function (index) {				
-				if(value = ~~$(this).attr(options.valueDataset)) {
-					$(this).append('<div class="before">');
-					$(this).append('<div class="after">');
-					core.dataAppendColors(this);
-					core.fullValue += value;
-				}
-			});
-			
-			var iter = 0;
 			pieElements.each(function (index) {
-				if(value = ~~$(this).attr(options.valueDataset)) {
-					var deg = (value/core.fullValue)*360;
-					var percent = (value/core.fullValue)*100;
-					if(percent>50) {
-						$(this).addClass('big');
-					}
-					core.dataStartStyles(this, iter);
-					core.dataValueStyles(this, deg)
-					iter += deg;
+				tempValue = (~~$(this).attr(options.valueDataset) / core.fullValue);
+				deg = tempValue * 360;
+				percent = tempValue * 100;
+				console.log('value: ' + tempValue, 'deg: ' + deg, 'percent: ' + percent);
+				core.createElements.call(this);
+				core.dataAppendColors.call(this);
+				core.dataStartStyles.call(this, iter);
+				core.dataValueStyles.call(this, deg);
+				
+				if(percent>50) {
+					$(this).addClass('big');
 				}
+				iter += deg;
 			});
 			
 		}
