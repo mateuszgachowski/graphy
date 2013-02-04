@@ -31,12 +31,12 @@ Example (fifty-fifty):
   &lt;div data-value="300"&gt;&lt;/div&gt;
 &lt;/div>
 </code>
-<script>
+&lt;script&gt;
   $(document).ready(function() {
 	/* Graphy init on the #graphy element */
   	$('#graphy').graphy();
   });
-</script>
+&lt;/script&gt;
 </pre>
 
 Thats all!
