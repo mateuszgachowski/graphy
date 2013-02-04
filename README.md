@@ -2,6 +2,7 @@ graphy
 ======
 
 Graphy is a jQuery plugin/component which allows you to create easy pie charts.
+Demo: http://mgachowski.pl/graphy/
 
 ## Instalation:
 
