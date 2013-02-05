@@ -15,7 +15,6 @@
 			
 			defaults = {
 				valueDataset: 'data-value',
-				startDataset: 'data-start',
 				titleDataset: 'data-title',
 				colors: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8']
 			};
