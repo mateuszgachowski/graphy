@@ -21,7 +21,8 @@
 			defaults = {
 				valueDataset: 'data-value',														// Attribute containing values based on which we'll be computing percentages
 				titleDataset: 'data-title',														// Labels
-				colors: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff']	// Basic colors for pie chart
+				colors: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff'],	// Basic colors for pie chart
+				canvasSize: {width: 200, height: 200}
 			};
 			
 			/**
@@ -84,13 +85,13 @@
 					context.arc(centerX, centerY, radius, startingAngle, endingAngle, false);
 					context.closePath();
 		
-					context.fillStyle = '#ccc';
+					context.fillStyle = $(this).children('.center').css('background-color');
 					context.fill();
 		
 					context.restore();
 				},
 				ieFallback: function() {
-					var canvas = $('<canvas id="piechart" width="200" height="200">&nbsp;</canvas>');
+					var canvas = $('<canvas id="canvas-fallback" width="'+options.canvasSize.width+'" height="'+options.canvasSize.height+'"></canvas>');
 					$('.graphy').prepend(canvas);
 					
 					canvas = canvas[0];
@@ -101,7 +102,7 @@
 					for(var i = 0; i < core.dataValues.length; i++) {
 						core.drawSegment(canvas, context, i);
 					}
-					core.drawCenterCircle(canvas, context);
+					core.drawCenterCircle.call(this, canvas, context);
 				},
 				dataStartStyles: function (value) {
 					//$(this).attr('style', '-ms-filter:'+core.ieMatrixCount(value));
@@ -173,7 +174,7 @@
 			
 			if(window.ie) {
 				$(this).children('[class!="center"]').remove();
-				core.ieFallback();
+				core.ieFallback.call(this);
 			}
 			
 		}
