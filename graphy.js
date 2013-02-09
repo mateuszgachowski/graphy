@@ -21,7 +21,7 @@
 			defaults = {
 				valueDataset: 'data-value',														// Attribute containing values based on which we'll be computing percentages
 				titleDataset: 'data-title',														// Labels
-				colors: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8']	// Basic colors for pie chart
+				colors: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff']	// Basic colors for pie chart
 			};
 			
 			/**
@@ -38,40 +38,79 @@
 				fullValue					: 0,
 				dataValues				: [],
 				currentColorIndex	: 0,
-				ieMatrixCount: function (deg) {
-					var rad;
-					var costheta;
-					var sintheta;
-					var a;
-					var b;
-					var c;
-					var d;
-					var tx;
-					var ty;
+				sumTo: function(a, i) {
+					var sum = 0;
+					for (var j = 0; j < i; j++) {
+						sum += a[j];
+					}
+					return sum;
+				},
+				degreesToRadians: function(degrees) {
+					return (degrees * Math.PI / 180);
+				},
+				/* Canvas draw segment for IE fallback */
+				drawSegment: function(canvas, context, i) {
+					context.save();
+					var centerX = Math.floor(canvas.width / 2);
+					var centerY = Math.floor(canvas.height / 2);
+					var radius = Math.floor(canvas.width / 2);
+		
+					var startingAngle = core.degreesToRadians(core.sumTo(core.dataValues, i)-90);
+					var arcSize = core.degreesToRadians(core.dataValues[i]);
+					var endingAngle = startingAngle + arcSize;
+		
+					context.beginPath();
+					context.moveTo(centerX, centerY);
+					context.arc(centerX, centerY, radius, startingAngle, endingAngle, false);
+					context.closePath();
+		
+					context.fillStyle = options.colors[i];
+					context.fill();
+		
+					context.restore();
+				},
+				drawCenterCircle: function(canvas, context) {
+					context.save();
+					var centerX = Math.floor(canvas.width / 2);
+					var centerY = Math.floor(canvas.height / 2);
+					var radius = Math.floor(70);
+		
+					var startingAngle = core.degreesToRadians(0);
+					var arcSize = core.degreesToRadians(360);
+					var endingAngle = startingAngle + arcSize;
+		
+					context.beginPath();
+					context.moveTo(centerX, centerY);
+					context.arc(centerX, centerY, radius, startingAngle, endingAngle, false);
+					context.closePath();
+		
+					context.fillStyle = '#ccc';
+					context.fill();
+		
+					context.restore();
+				},
+				ieFallback: function() {
+					var canvas = $('<canvas id="piechart" width="200" height="200">&nbsp;</canvas>');
+					$('.graphy').prepend(canvas);
 					
-				  // use parseFloat twice to kill exponential numbers and avoid things like 0.00000000
-				  rad 		 = deg * (Math.PI / 180);
-					costheta = parseFloat(parseFloat(Math.cos(rad)).toFixed(8));
-		  		sintheta = parseFloat(parseFloat(Math.sin(rad)).toFixed(8));
-						
-					// collect all of the values  in our matrix
-					a  = costheta,
-					b  = sintheta,
-					c  = -sintheta,
-					d  = costheta,
-					tx = 0,
-					ty = 0;
+					canvas = canvas[0];
+					// for excanvas
+					G_vmlCanvasManager.initElement(canvas);
+					var context = canvas.getContext("2d");
 					
-					return 'progid:DXImageTransform.Microsoft.Matrix(M11=' + a + ', M12=' + c + ', M21=' + b + ', M22=' + d + ', sizingMethod=\'auto expand\')';		
+					for(var i = 0; i < core.dataValues.length; i++) {
+						core.drawSegment(canvas, context, i);
+					}
+					core.drawCenterCircle(canvas, context);
 				},
 				dataStartStyles: function (value) {
+					//$(this).attr('style', '-ms-filter:'+core.ieMatrixCount(value));
 					$(this).css({
 						'-moz-transform'		: 'rotate(' + value + 'deg)', /* Firefox */
 						'-ms-transform'			: 'rotate(' + value + 'deg)', /* IE */
 						'-webkit-transform'	: 'rotate(' + value + 'deg)', /* Safari and Chrome */
 						'-o-transform'			: 'rotate(' + value + 'deg)', /* Opera */
-						'transform'					: 'rotate(' + value + 'deg)',
-						'-ms-filter'				: core.ieMatrixCount(value)
+						'transform'					: 'rotate(' + value + 'deg)'
 					});
 					
 					// @TODO: add here fixes for IE 7/8
@@ -79,14 +118,13 @@
 				dataValueStyles: function (value) {
 					value += 1;
 					if(value > 360) { value = 360 };
-					
+					//$(this).children('.before').attr('style', '-ms-filter:'+core.ieMatrixCount(value));
 					$(this).children('.before').css({
 						'-moz-transform'		: 'rotate(' + value + 'deg)', /* Firefox */
 						'-ms-transform'			: 'rotate(' + value + 'deg)', /* IE */
 						'-webkit-transform'	: 'rotate(' + value + 'deg)', /* Safari and Chrome */
 						'-o-transform'			: 'rotate(' + value + 'deg)', /* Opera */
-						'transform'					: 'rotate(' + value + 'deg)',
-						'-ms-filter'				: core.ieMatrixCount(value)
+						'transform'					: 'rotate(' + value + 'deg)'
 					});
 				},
 				dataAppendColors: function () {
@@ -125,11 +163,18 @@
 				core.dataStartStyles.call(this, degreeIterator);
 				core.dataValueStyles.call(this, deg);
 				
+				core.dataValues.push(deg);
+				
 				if(percent>50) {
 					$(this).addClass('big');
 				}
 				degreeIterator += deg;
 			});
+			
+			if(window.ie) {
+				$(this).children('[class!="center"]').remove();
+				core.ieFallback();
+			}
 			
 		}
 	});
