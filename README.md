@@ -48,6 +48,7 @@ Graphy takes some options when initialized:
 * (string) valueDataset [default: 'data-value']
 * (string) titleDataset [default: null]  *not yet supported*
 * (array) colors        [default: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8']]
+* (object) canvasSize	[default: {width: 200, height: 200}] *for IE 8 support*
 
 Example:
 <pre>
