@@ -55,7 +55,8 @@ Example:
   $('#graphy').graphy({
       colors: ['red', 'blue', 'green', 'yellow'],
       valueDataset: 'data-mywhatever',
-      titleDataset: 'data-mysupertitle'
+      titleDataset: 'data-mysupertitle',
+      canvasSize:   {width: 220, height: 220}
   });
 </pre>
 
