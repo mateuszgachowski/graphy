@@ -66,7 +66,9 @@ Graphy should be supported in every new web browser:
 * Opera
 * Safari
 * IE 9/10
+* IE 8 (canvas element with Google's excanvas library to work)
 
-Planned future support: 
-* IE 8 (natively with MS filters or with a hacky canvas for IE)
+
+TODO:
+* Rewrite core to be more readable. 
 
