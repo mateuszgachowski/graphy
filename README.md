@@ -48,13 +48,15 @@ Graphy takes some options when initialized:
 * (string) valueDataset [default: 'data-value']
 * (string) titleDataset [default: null]  *not yet supported*
 * (array) colors        [default: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8']]
+* (object) canvasSize	[default: {width: 200, height: 200}] *for IE 8 support*
 
 Example:
 <pre>
   $('#graphy').graphy({
       colors: ['red', 'blue', 'green', 'yellow'],
       valueDataset: 'data-mywhatever',
-      titleDataset: 'data-mysupertitle'
+      titleDataset: 'data-mysupertitle',
+      canvasSize:   {width: 220, height: 220}
   });
 </pre>
 
@@ -66,7 +68,9 @@ Graphy should be supported in every new web browser:
 * Opera
 * Safari
 * IE 9/10
+* IE 8 (canvas element with Google's excanvas library to work)
 
-Planned future support: 
-* IE 8 (natively with MS filters or with a hacky canvas for IE)
+
+TODO:
+* Rewrite core to be more readable. 
 
