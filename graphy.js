@@ -21,10 +21,10 @@
      *
      * @param  {Object}  customParams  Plugin configuration, defaults to:
      *                                 {
-     *                                   valueDataset : 'data-value',
-     *                                   titleDataset : 'data-title',
-     *                                   colors       : ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff'],
-     *                                   canvasSize   : { width : 200, height : 200 }
+     *                                   values     : 'data-value',
+     *                                   labels     : 'data-label',
+     *                                   colors     : ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff'],
+     *                                   canvasSize : { width : 200, height : 200 }
      *                                 }
      * @return {Object}                jQuery collection of objects (chainable)
      */
@@ -44,14 +44,15 @@
        * @type {Object}
        */
       options = $.extend({}, {
-        valueDataset : 'data-value',                                            // Attribute containing values based on which we'll be computing percentages
-        titleDataset : 'data-title',                                            // Labels
+        values       : 'data-value',                                            // Attribute containing values based on which we'll be computing percentages
+        // @TODO: Labels are currently not in use:
+        labels       : 'data-label',                                            // Labels
         colors       : ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff'], // Basic colors for pie chart
         canvasSize   : { width : 200, height : 200 }
       }, customParams);
 
 
-      chartData = this.children('[%attribute]'.replace('%attribute', options.valueDataset));
+      chartData = this.children('[%attribute]'.replace('%attribute', options.values));
 
       degreeIterator = 0;
 
@@ -161,7 +162,7 @@
         },
         countFullValue: function () {
           chartData.each(function () {
-            core.fullValue += ~~$(this).attr(options.valueDataset);
+            core.fullValue += ~~$(this).attr(options.values);
           });
         },
         createElements: function () {
@@ -176,7 +177,7 @@
 
 
       chartData.each(function () {
-        tempValue = (~~$(this).attr(options.valueDataset) / core.fullValue);
+        tempValue = (~~$(this).attr(options.values) / core.fullValue);
         deg       = tempValue * 360;
         percent   = tempValue * 100;
 
