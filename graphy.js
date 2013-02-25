@@ -5,6 +5,29 @@
 
 
   $.fn.extend({
+    /**
+     * Graphy is a jQuery plugin/component which allows you to create easy pie charts
+     *
+     * Sample Usage:
+     *
+     *   // # HTML:
+     *   // To be provided
+     *
+     *   // # JS:
+     *   // To be provided
+     *
+     *
+     * @chainable
+     *
+     * @param  {Object}  customParams  Plugin configuration, defaults to:
+     *                                 {
+     *                                   valueDataset: 'data-value',
+     *                                   titleDataset: 'data-title',
+     *                                   colors: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff'],
+     *                                   canvasSize: { width : 200, height : 200 }
+     *                                 }
+     * @return {Object}                jQuery collection of objects (chainable)
+     */
     graphy: function (customParams) {
       var defaults;
       var options;
