@@ -89,35 +89,49 @@
           return (degrees * Math.PI / 180);
         },
         /* Canvas draw segment for IE fallback */
-        drawSegment: function (canvas, context, i) {
+        drawSegment: function (canvas, context, index) {
           context.save();
-          var centerX = Math.floor(canvas.width / 2);
-          var centerY = Math.floor(canvas.height / 2);
-          var radius = Math.floor(canvas.width / 2);
 
-          var startingAngle = core.degreesToRadians(core.sumTo(core.dataValues, i) - 90);
-          var arcSize = core.degreesToRadians(core.dataValues[i]);
-          var endingAngle = startingAngle + arcSize;
+          var centerX;
+          var centerY;
+          var radius;
+          var startingAngle;
+          var arcSize;
+          var endingAngle;
+
+          centerX       = Math.floor(canvas.width  / 2);
+          centerY       = Math.floor(canvas.height / 2);
+          radius        = Math.floor(canvas.width  / 2);
+          startingAngle = core.degreesToRadians(core.sumTo(core.dataValues, index) - 90);
+          arcSize       = core.degreesToRadians(core.dataValues[index]);
+          endingAngle   = startingAngle + arcSize;
 
           context.beginPath();
           context.moveTo(centerX, centerY);
           context.arc(centerX, centerY, radius, startingAngle, endingAngle, false);
           context.closePath();
 
-          context.fillStyle = options.colors[i];
+          context.fillStyle = options.colors[index];
           context.fill();
 
           context.restore();
         },
         drawCenterCircle: function (canvas, context) {
           context.save();
-          var centerX = Math.floor(canvas.width / 2);
-          var centerY = Math.floor(canvas.height / 2);
-          var radius = Math.floor(70);
 
-          var startingAngle = core.degreesToRadians(0);
-          var arcSize = core.degreesToRadians(360);
-          var endingAngle = startingAngle + arcSize;
+          var centerX;
+          var centerY;
+          var radius;
+          var startingAngle;
+          var arcSize;
+          var endingAngle;
+
+          centerX       = Math.floor(canvas.width  / 2);
+          centerY       = Math.floor(canvas.height / 2);
+          radius        = Math.floor(70);
+          startingAngle = core.degreesToRadians(0);
+          arcSize       = core.degreesToRadians(360);
+          endingAngle   = startingAngle + arcSize;
 
           context.beginPath();
           context.moveTo(centerX, centerY);
@@ -130,14 +144,17 @@
           context.restore();
         },
         ieFallback: function () {
-          var canvas = $('<canvas id="canvas-fallback" width="%width" height="%height"></canvas>'.replace('%width', options.canvasSize.width).replace('%height', options.canvasSize.height));
+          var canvas;
+          var context;
+
+          canvas = $('<canvas id="canvas-fallback" width="%width" height="%height"></canvas>'.replace('%width', options.canvasSize.width).replace('%height', options.canvasSize.height));
           $('.graphy').prepend(canvas);
 
           canvas = canvas[0];
 
           // Explorer Canvas
           G_vmlCanvasManager.initElement(canvas);
-          var context = canvas.getContext('2d');
+          context = canvas.getContext('2d');
 
           for (var i = 0; i < core.dataValues.length; i++) {
             core.drawSegment(canvas, context, i);
@@ -219,4 +236,5 @@
 
     }
   });
+
 })(this, this.document, this.jQuery);
