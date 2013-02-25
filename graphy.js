@@ -33,9 +33,6 @@
       var chartData;
       var core;
       var degreeIterator;
-      var deg;
-      var percent;
-      var tempValue;
 
 
       /**
@@ -210,8 +207,11 @@
 
       // @TODO: return this.each part is missing causing this plugin to not be chainable with other jQuery methods, e.g. $('body').graphy().hide().slideDown();
 
-
       chartData.each(function () {
+        var tempValue;
+        var deg;
+        var percent;
+
         tempValue = (~~$(this).attr(options.values) / core.fullValue);
         deg       = tempValue * 360;
         percent   = tempValue * 100;
