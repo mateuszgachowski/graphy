@@ -21,10 +21,10 @@
      *
      * @param  {Object}  customParams  Plugin configuration, defaults to:
      *                                 {
-     *                                   valueDataset: 'data-value',
-     *                                   titleDataset: 'data-title',
-     *                                   colors: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff'],
-     *                                   canvasSize: { width : 200, height : 200 }
+     *                                   valueDataset : 'data-value',
+     *                                   titleDataset : 'data-title',
+     *                                   colors       : ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff'],
+     *                                   canvasSize   : { width : 200, height : 200 }
      *                                 }
      * @return {Object}                jQuery collection of objects (chainable)
      */
@@ -40,6 +40,7 @@
 
       /**
        * Options (defaults extended by customParams)
+       *
        * @type {Object}
        */
       options = $.extend({}, {
@@ -110,11 +111,12 @@
           context.restore();
         },
         ieFallback: function () {
-          var canvas = $('<canvas id="canvas-fallback" width="' + options.canvasSize.width + '" height="' + options.canvasSize.height + '"></canvas>');
+          var canvas = $('<canvas id="canvas-fallback" width="%width" height="%height"></canvas>'.replace('%width', options.canvasSize.width).replace('%height', options.canvasSize.height));
           $('.graphy').prepend(canvas);
 
           canvas = canvas[0];
-          // for excanvas
+
+          // Explorer Canvas
           G_vmlCanvasManager.initElement(canvas);
           var context = canvas.getContext('2d');
 
