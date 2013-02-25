@@ -60,11 +60,29 @@
         fullValue         : 0,
         dataValues        : [],
         currentColorIndex : 0,
-        sumTo: function (a, i) {
+        /**
+         * Sums <limit> number of elements in a given array
+         *
+         * Sample Usage:
+         *
+         *   sumTo([1,2,3,4], 2) // => 3
+         *   sumTo([1,2,3,4], 3) // => 6
+         *
+         *
+         * @param  {Array}   numbers  Array containing numbers
+         * @param  {Number}  limit    Limit of elements to sum
+         * @return {Number}
+         */
+        sumTo : function (numbers, limit) {
           var sum = 0;
-          for (var j = 0; j < i; j++) {
-            sum += a[j];
+
+          // If limit is bigger than array's length, assume array's length as the limit
+          if (limit > numbers.length) { limit = numbers.length; }
+
+          for (var index = 0; index < limit; index++) {
+            sum += numbers[index];
           }
+
           return sum;
         },
         degreesToRadians: function (degrees) {
