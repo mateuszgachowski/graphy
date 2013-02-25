@@ -29,7 +29,6 @@
      * @return {Object}                jQuery collection of objects (chainable)
      */
     graphy: function (customParams) {
-      var defaults;
       var options;
       var chartData;
       var core;
@@ -40,21 +39,16 @@
 
 
       /**
-       * Default options to be extended by customParams
-       * @type {Object}
-       */
-      defaults = {
-        valueDataset: 'data-value',                           // Attribute containing values based on which we'll be computing percentages
-        titleDataset: 'data-title',                           // Labels
-        colors: ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff'],  // Basic colors for pie chart
-        canvasSize: {width: 200, height: 200}
-      };
-
-      /**
        * Options (defaults extended by customParams)
        * @type {Object}
        */
-      options = $.extend({}, defaults, customParams);
+      options = $.extend({}, {
+        valueDataset : 'data-value',                                            // Attribute containing values based on which we'll be computing percentages
+        titleDataset : 'data-title',                                            // Labels
+        colors       : ['#fd795b', '#bcf1ed', '#fdedd0', '#b76eb8', '#ff00ff'], // Basic colors for pie chart
+        canvasSize   : { width : 200, height : 200 }
+      }, customParams);
+
 
       chartData = this.children('[%attribute]'.replace('%attribute', options.valueDataset));
 
